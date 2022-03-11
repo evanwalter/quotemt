@@ -50,9 +50,14 @@ class Quote {
 
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-		$this->quote = $row['quote'];
-		$this->author_id = $row['authorId'];
-		$this->category_id = $row['categoryId'];
+		if (isset($row['quote'])){
+			$this->quote = $row['quote'];
+			$this->author = $row['author'];
+			$this->category = $row['category'];
+		} else {
+			$this->id ="-1";
+		}		
+
 	}
 
 	// Create a post

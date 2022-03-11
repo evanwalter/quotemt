@@ -43,7 +43,12 @@ class Author {
 
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-		$this->author = $row['author'];
+		if (isset($row['author'])){
+			$this->author = $row['author'];
+		} else {
+			$this->id ="-1";
+			$this->author = "Author not found";
+		}
 	}
 
 	// Create a Category

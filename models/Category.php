@@ -43,7 +43,12 @@ class Category {
 
 		$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-		$this->category = $row['category'];
+		if (isset($row['category'])){
+			$this->category = $row['category'];
+		} else {
+			$this->id ="-1";
+			$this->category = "Category not found";
+		}
 	}
 
 	// Create a Category

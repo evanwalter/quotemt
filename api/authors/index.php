@@ -23,14 +23,16 @@ if ($request_method=="GET"){
             $author->id = $id;   
             $author->read_single();
 
-            //Create array
-            $author_arr = array(
-                'id' => $author->id,
-                'author' => $author->author
-            );
-            
-            // Convert to JSON
-            print_r(json_encode($author_arr));        
+            if ($author->id === "-1"){
+                echo json_encode( array("message" => "authorId found"));
+            } else {
+                $author_arr = array(
+                    'id' => $author->id,
+                    'author' => $author->author
+                );
+                // Convert to JSON
+                print_r(json_encode($author_arr));        
+            }
         } else {
             $result = $author->read();
             $num = $result->rowCount();

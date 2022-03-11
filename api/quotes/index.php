@@ -23,17 +23,20 @@ if ($request_method=="GET"){
             $quote->id = $id;   
             $quote->read_single();
 
-            //Create array
-            $quote_arr = array(
-                'id' => $quote->id,
-                'quote' => $quote->quote,
-                'author' => $quote->author,
-                'category' => $quote->category
-            );
-            
-            // Convert to JSON
-            print_r(json_encode($quote_arr));        
-        } else {
+            if ($quote->id === "-1"){
+                echo json_encode( array("message" => "quoteId Not found"));
+            } else {
+                //Create array
+                $quote_arr = array(
+                    'id' => $quote->id,
+                    'quote' => $quote->quote,
+                    'author' => $quote->author,
+                    'category' => $quote->category
+                );
+                // Convert to JSON
+                print_r(json_encode($quote_arr));        
+        }            
+    } else {
             $result = $quote->read();
             $num = $result->rowCount();
         

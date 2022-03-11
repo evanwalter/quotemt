@@ -23,14 +23,18 @@ if ($request_method=="GET"){
             $category->id = $id;   
             $category->read_single();
 
-            //Create array
-            $category_arr = array(
-                'id' => $category->id,
-                'category' => $category->category
-            );
-            
-            // Convert to JSON
-            print_r(json_encode($category_arr));        
+            if ($category->id === "-1"){
+                echo json_encode( array("message" => "categoryId Not found"));
+            } else {
+                //Create array
+                $category_arr = array(
+                    'id' => $category->id,
+                    'category' => $category->category
+                );
+                
+                // Convert to JSON
+                print_r(json_encode($category_arr));        
+            }
         } else {
             $result = $category->read();
             $num = $result->rowCount();

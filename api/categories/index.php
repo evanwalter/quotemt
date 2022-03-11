@@ -6,6 +6,8 @@ $id = isset($_GET['id']) ? $_GET['id'] : NULL;
 
 include_once '../../config/Database.php';
 include_once '../../models/Category.php';
+include_once '../../models/Validate.php';
+
 
 // Instantiate Db and connect
 $database = new Database();
@@ -13,6 +15,8 @@ $db = $database->connect();
 
 // Instantiate blog post object
 $category = new Category($db);
+
+$validator = new Validator();
 
 // If GET call return all rows 
 if ($request_method=="GET"){
@@ -92,14 +96,21 @@ if($request_method=="PUT"){
 
     // Set ID to update
     $category->id = $data->id;
-    $category->category = $data->category;
 
-    //Update
-    if($category->update()){
-            echo json_encode( array('message' => 'Category updated'));
+    $isvalid = $validator->isValid($category);
+   
+    if ($isvalid){
+            //Update
+            $category->category = $data->category;
+            if($category->update()){
+                echo json_encode( array('message' => 'Category updated'));
+            } else {
+                echo json_encode( array('message' => 'Category Not updated'));
+            }
         } else {
-            echo json_encode( array('message' => 'Category Not updated'));
+            echo json_encode( array('message' => 'CategoryId not found'));
         }
+
     }
 
 if($request_method=="DELETE"){

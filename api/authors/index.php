@@ -6,6 +6,7 @@ $id = isset($_GET['id']) ? $_GET['id'] : NULL;
 
 include_once '../../config/Database.php';
 include_once '../../models/Author.php';
+include_once '../../models/Validate.php';
 
 // Instantiate Db and connect
 $database = new Database();
@@ -13,6 +14,8 @@ $db = $database->connect();
 
 // Instantiate blog post object
 $author = new Author($db);
+
+$validator = new Validator();
 
 // If GET call return all rows 
 if ($request_method=="GET"){
@@ -89,13 +92,19 @@ if($request_method=="PUT"){
 
     // Set ID to update
     $author->id = $data->id;
-    $author->author = $data->author;
 
-    //Update
-    if($author->update()){
-            echo json_encode( array('message' => 'Author updated'));
+    $isvalid = $validator->isValid($author);
+
+    if ($isvalid){
+            //Update
+            $author->author = $data->author;            
+            if($author->update()){
+                echo json_encode( array('message' => 'Author updated'));
+            } else {
+                echo json_encode( array('message' => 'Author not updated'));
+            }
         } else {
-            echo json_encode( array('message' => 'Author not updated'));
+            echo json_encode( array('message' => 'AuthorId not found'));
         }
     }
 

@@ -30,6 +30,46 @@ class Quote {
 		return $stmt;
 	}
 
+	// Getting all the quotas of a given author
+	public function read_by_author(){
+		$query = 'SELECT    q.id,q.quote,
+                            a.author,
+                            c.category
+				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
+                            INNER JOIN categories c	ON q.categoryId=c.id 
+				  WHERE q.authorId=:author_id
+				  ORDER BY q.id;';
+		
+		// Prepare statement
+		$stmt = $this->conn->prepare($query);
+
+		$stmt->bindParam(':author_id', $this->author_id);
+
+		// Execute query
+		$stmt->execute();
+		return $stmt;
+	}
+
+	// Get all quotes within a given category
+	public function read_by_category(){
+		$query = 'SELECT    q.id,q.quote,
+                            a.author,
+                            c.category
+				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
+                            INNER JOIN categories c	ON q.categoryId=c.id 
+				  WHERE q.authorId=:category_id
+				  ORDER BY q.id;';
+		
+		// Prepare statement
+		$stmt = $this->conn->prepare($query);
+
+		$stmt->bindParam(':category_id', $this->category_id);
+
+		// Execute query
+		$stmt->execute();
+		return $stmt;
+	}
+
 	// Get a Single Post
 	public function read_single(){
 		$query = 'SELECT    q.id,q.quote,

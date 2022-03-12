@@ -3,9 +3,14 @@
 
 $request_method = $_SERVER["REQUEST_METHOD"];
 $id = isset($_GET['id']) ? $_GET['id'] : NULL;
+$author_id = isset($_GET['authorId']) ? $_GET['authorId'] : NULL;
+$category_id = isset($_GET['categoryId']) ? $_GET['categoryId'] : NULL;
 
 include_once '../../config/Database.php';
 include_once '../../models/Quote.php';
+include_once '../../models/Author.php';
+include_once '../../models/Category.php';
+include_once '../../models/Validate.php';
 
 // Instantiate Db and connect
 $database = new Database();
@@ -13,6 +18,8 @@ $db = $database->connect();
 
 // Instantiate blog post object
 $quote = new Quote($db);
+
+$validator = new Validator();
 
 // If GET call return all rows 
 if ($request_method=="GET"){
@@ -36,7 +43,67 @@ if ($request_method=="GET"){
                 // Convert to JSON
                 print_r(json_encode($quote_arr));        
         }            
-    } else {
+    } else if ($author_id != NULL){
+        $author = new Author($db);
+        $author->id = $author_id;
+        $isvalid = $validator->isValid($author);
+    
+        if($isvalid){
+            $quote->author_id = $author_id;   
+            $result = $quote->read_by_author();
+            $num = $result->rowCount();
+        
+            // Get data from result
+            if ($num > 0){
+                $quote_arr = array();
+                $quote_arr['data']=array();
+                while( $row = $result->fetch(PDO::FETCH_ASSOC)){
+                    extract($row);
+                    $quote_item = array(
+                        'id'=> $id,'quote'=> $quote,
+                        'author'=> $author,'category'=> $category
+                        );
+                    array_push($quote_arr['data'], $quote_item); 
+                    }  // end while
+                    echo json_encode($quote_arr);
+                } else {
+                    echo json_encode(array('message'=> ' No quotas found'));		
+                }  // eNd if else
+              }  else {
+                echo json_encode( array('message' => 'AuthorId not found'));
+            }
+            } else if ($category_id != NULL){
+                $category = new Category($db);
+                $category->id = $category_id;
+                $isvalid = $validator->isValid($category);
+
+                if($isvalid){
+                    $quote->category_id = $category_id;   
+                    $result = $quote->read_by_category();
+                    $num = $result->rowCount();
+                
+                    // Get data from result
+                    if ($num > 0){
+                        $quote_arr = array();
+                        $quote_arr['data']=array();
+                        while( $row = $result->fetch(PDO::FETCH_ASSOC)){
+                            extract($row);
+                            $quote_item = array(
+                                'id'=> $id,'quote'=> $quote,
+                                'author'=> $author,'category'=> $category
+                                );
+                            array_push($quote_arr['data'], $quote_item); 
+                            } // end while
+                            echo json_encode($quote_arr);
+                        } else {
+                            echo json_encode(array('message'=> ' No quotas found') );		
+                        } // end if else   
+                } else {
+                echo json_encode( array('message' => 'CategoryId not found'));
+            }
+                        
+                    
+        } else {    // end if category_id else 
             $result = $quote->read();
             $num = $result->rowCount();
         

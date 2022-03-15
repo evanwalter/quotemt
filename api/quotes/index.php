@@ -140,10 +140,14 @@ if($request_method=="POST"){
     // Get raw posted data   - decodes FROM JSON format
     $data = json_decode(file_get_contents("php://input"));
 
-    $quote->quote = $data->quote;
+    $quote->quote = isset($data->quote) ? $data->quote : NULL;
     $quote->author_id = isset($data->authorId) ? $data->authorId : NULL;
     $quote->category_id = isset($data->categoryId) ? $data->categoryId : NULL;
-    
+
+    if (isset($data->quote)===false){
+        echo json_encode( array('message' => 'A quote was not provided') );
+        return false;
+    }    
     if (isset($data->authorId)===false){
         echo json_encode( array('message' => 'An authorId was not provided') );
         return false;

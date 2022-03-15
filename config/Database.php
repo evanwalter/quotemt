@@ -1,12 +1,14 @@
 <?php 
 	class Database {
 			// Connection Parameters
-			private $host='localhost:3307';
-			private $db_name='quotesdb';
-			private $username='root';
-			private $password='';
+
+			private $host=getenv('HOST'); 
+			private $db_name=getenv('DB_NAME');
+			private $username=getenv('USERNAME');
+			private $password=getenv('PASSWORD');
+
 			private $conn;
-			
+
 			public function connect() {
 				$this->conn = null;
 				

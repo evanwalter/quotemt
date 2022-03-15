@@ -22,6 +22,8 @@ $validator = new Validator();
 if ($request_method=="GET"){
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
+
+				
     // Get query result & row count
     if ($id != NULL){
             $category->id = $id;   

@@ -38,7 +38,7 @@ class Quote {
 				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
                             INNER JOIN categories c	ON q.categoryId=c.id 
 				  WHERE q.authorId=:author_id
-				  ORDER BY q.id;';
+				  ORDER BY RAND() LIMIT 1;';
 		
 		// Prepare statement
 		$stmt = $this->conn->prepare($query);

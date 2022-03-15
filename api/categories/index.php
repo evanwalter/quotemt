@@ -42,6 +42,8 @@ if ($request_method=="GET"){
                 print_r(json_encode($category_arr));        
             }
         } else {
+            $test = getenv("JAWSDB_URL", false);
+
             $result = $category->read();
             $num = $result->rowCount();
         
@@ -52,7 +54,7 @@ if ($request_method=="GET"){
                 while( $row = $result->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     $cat_item = array(
-                        'id'=> $id,'category'=> $category
+                        'id'=> $id,'category'=> $category . $test
                         );
                     // Push to "data"	
                     array_push($cat_arr['data'], $cat_item); 

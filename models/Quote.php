@@ -16,55 +16,13 @@ class Quote {
 	}
 
 	public function read(){
-		$query = 'SELECT    q.id,q.quote,
-                            a.author,
-                            c.category
+		$query = 'SELECT    q.id,q.quote,a.author,c.category
 				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
                             INNER JOIN categories c	ON q.categoryId=c.id 
 				  ORDER BY q.id;';
 		
 		// Prepare statement
 		$stmt = $this->conn->prepare($query);
-		// Execute query
-		$stmt->execute();
-		return $stmt;
-	}
-
-	// Getting all the quotas of a given author
-	public function read_by_author(){
-		$query = 'SELECT    q.id,q.quote,
-                            a.author,
-                            c.category
-				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
-                            INNER JOIN categories c	ON q.categoryId=c.id 
-				  WHERE q.authorId=:author_id
-				  ORDER BY RAND() LIMIT 1;';
-		
-		// Prepare statement
-		$stmt = $this->conn->prepare($query);
-
-		$stmt->bindParam(':author_id', $this->author_id);
-
-		// Execute query
-		$stmt->execute();
-		return $stmt;
-	}
-
-	// Get all quotes within a given category
-	public function read_by_category(){
-		$query = 'SELECT    q.id,q.quote,
-                            a.author,
-                            c.category
-				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
-                            INNER JOIN categories c	ON q.categoryId=c.id 
-				  WHERE q.authorId=:category_id
-				  ORDER BY q.id;';
-		
-		// Prepare statement
-		$stmt = $this->conn->prepare($query);
-
-		$stmt->bindParam(':category_id', $this->category_id);
-
 		// Execute query
 		$stmt->execute();
 		return $stmt;
@@ -72,9 +30,7 @@ class Quote {
 
 	// Get a Single Post
 	public function read_single(){
-		$query = 'SELECT    q.id,q.quote,
-                            a.author,
-                            c.category
+		$query = 'SELECT    q.id,q.quote,a.author,c.category
 				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
                             INNER JOIN categories c	ON q.categoryId=c.id  
 				  WHERE q.id= ? LIMIT 0,1';
@@ -97,10 +53,45 @@ class Quote {
 		} else {
 			$this->id ="-1";
 		}		
-
 	}
 
-	// Create a post
+	// Getting all the quotas of a given author
+	public function read_by_author(){
+		$query = 'SELECT    q.id,q.quote,a.author,c.category
+				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
+                            INNER JOIN categories c	ON q.categoryId=c.id 
+				  WHERE q.authorId=:author_id
+				  ORDER BY RAND() LIMIT 1;';
+		
+		// Prepare statement
+		$stmt = $this->conn->prepare($query);
+
+		$stmt->bindParam(':author_id', $this->author_id);
+
+		// Execute query
+		$stmt->execute();
+		return $stmt;
+	}
+
+	// Get all quotes within a given category
+	public function read_by_category(){
+		$query = 'SELECT    q.id,q.quote,a.author,c.category
+				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
+                            INNER JOIN categories c	ON q.categoryId=c.id 
+				  WHERE q.authorId=:category_id
+				  ORDER BY q.id;';
+		
+		// Prepare statement
+		$stmt = $this->conn->prepare($query);
+
+		$stmt->bindParam(':category_id', $this->category_id);
+
+		// Execute query
+		$stmt->execute();
+		return $stmt;
+	}
+
+	// Create a new Quote
 	public function create() {
 
 		//Create query
@@ -131,7 +122,7 @@ class Quote {
 		return "-1";
 	}
 
-	// Update a post
+	// Update an existing Quote
 	public function update() {
 		//Create query
 		$query = 'UPDATE quotes SET

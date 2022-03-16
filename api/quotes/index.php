@@ -31,7 +31,7 @@ if ($request_method=="GET"){
             $quote->read_single();
 
             if ($quote->id === "-1"){
-                echo json_encode( array("message" => "quoteId Not found"));
+                echo json_encode( array("message" => "No Quotes Found"));
             } else {
                 //Create array
                 $quote_arr = array(
@@ -67,10 +67,10 @@ if ($request_method=="GET"){
                     }  // end while
                     echo json_encode($quote_arr);
                 } else {
-                    echo json_encode(array('message'=> ' No quotas found'));		
+                    echo json_encode(array('message'=> ' No Quotas Found'));		
                 }  // eNd if else
               }  else {
-                echo json_encode( array('message' => 'AuthorId not found'));
+                echo json_encode( array('message' => 'authorId Not Found'));
             }
             } else if ($category_id != NULL){
                 $category = new Category($db);
@@ -99,7 +99,7 @@ if ($request_method=="GET"){
                             echo json_encode(array('message'=> ' No quotas found') );		
                         } // end if else   
                 } else {
-                echo json_encode( array('message' => 'CategoryId not found'));
+                echo json_encode( array('message' => 'categoryId Not Found'));
             }
                         
                     
@@ -124,7 +124,7 @@ if ($request_method=="GET"){
                     echo json_encode($quote_arr);
                 } else {
                     echo json_encode(
-                        array('message'=> ' No quotas found')
+                        array('message'=> ' No Quotas Found')
                     );		
                 }
         } 

@@ -14,7 +14,6 @@ class Author {
 	}
 
 	public function read(){
-
 		$query = 'SELECT id,author
 				  FROM authors  
 				  ORDER BY id;';

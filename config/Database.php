@@ -7,20 +7,10 @@
 			private $password;
 
 			public function __construct(){
-
-
 				$this->hostname=getenv('HOSTNAME'); 
 				$this->db_name=getenv('DB_NAME');
 				$this->username=getenv('USERNAME');
 				$this->password=getenv('PASSWORD');
-				#private $url = getenv('JAWSDB_URL');
-
-				
-				#private $hostname = $dbparts['host'];
-				#private $username = $dbparts['user'];
-				#private $password = $dbparts['pass'];
-				#private $db_name = ltrim($dbparts['path'],'/');
-
 			}
 			
 			public function connect() {

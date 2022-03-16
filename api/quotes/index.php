@@ -248,14 +248,14 @@ if($request_method=="DELETE"){
 
     if (is_null($data->id))
     {
-        echo json_encode( array('message' => 'A quote id is required'));
+        echo json_encode( array('message' => 'Missing Required Parameters'));
     } else {
         // Set ID to delete
         $quote->id = $data->id;
 
         //Create post
         if($quote->delete()){
-                echo json_encode( array('id' => $quote->id, 'message' => 'Quote has been deleted'));
+                echo json_encode( array('id' => $quote->id));
             } else {
                 echo json_encode( array('id' => $quote->id, 'message' => 'Unable to delete quote'));
             }

@@ -127,14 +127,14 @@ if($request_method=="DELETE"){
 
     if (!isset($data->id))
     {
-        echo json_encode( array('message' => 'A category id is required'));
+        echo json_encode( array('message' => 'Missing Required Parameters'));
     } else {
         // Set ID to delete
         $category->id = $data->id;
 
         //Create post
         if($category->delete()){
-                echo json_encode( array('id' => $category->id, 'message' => 'Category has been deleted'));
+                echo json_encode( array('id' => $category->id));
             } else {
                 echo json_encode( array('id' => $category->id, 'message' => 'Unable to delete category'));
             }

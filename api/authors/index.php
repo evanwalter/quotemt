@@ -75,7 +75,7 @@ if($request_method=="POST"){
     //Create Category
     $newid = $author->create();
     if($newid != "-1"){
-            echo json_encode( array('author' => $author->author, 'id' => $newid));
+            echo json_encode( array('id' => $newid, 'author' => $author->author));
         } else {
             echo json_encode( array('message' => 'Unable to create Author'));
         }
@@ -118,16 +118,16 @@ if($request_method=="DELETE"){
 
     if (!isset($data->id))
     {
-        echo json_encode( array('message' => 'An author id is required'));
+        echo json_encode( array('message' => 'Missing Required Parameters'));
     } else {
         // Set ID to delete
         $author->id = $data->id;
 
         //Create post
         if($author->delete()){
-                echo json_encode( array('id' => $author->id, 'message' => 'Author has been deleted'));
+                echo json_encode( array('id' => $author->id));
             } else {
-                echo json_encode( array('id' => $author->id, 'message' => 'Unable to delete author'));
+                echo json_encode( array('id' => $author->id, 'message' => 'authorId Not Found'));
             }
         }
     }

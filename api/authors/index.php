@@ -27,7 +27,7 @@ if ($request_method=="GET"){
             $author->read_single();
 
             if ($author->id === "-1"){
-                echo json_encode( array("message" => "authorId found"));
+                echo json_encode( array("message" => "authorId Not Found"));
             } else {
                 $author_arr = array(
                     'id' => $author->id,
@@ -43,14 +43,13 @@ if ($request_method=="GET"){
             // Get data from result
             if ($num > 0){
                 $author_arr = array();
-                $author_arr['data']=array();
                 while( $row = $result->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     $author_item = array(
                         'id'=> $id,'author'=> $author
                         );
                     // Push to "data"	
-                    array_push($author_arr['data'], $author_item); 
+                    array_push($author_arr, $author_item); 
                     }
                     // convert the PHP arry to JSON
                     echo json_encode($author_arr);

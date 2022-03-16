@@ -25,7 +25,8 @@ $validator = new Validator();
 if ($request_method=="GET"){
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
-    // Get query result & row count
+
+    // If an Id was provided, read single
     if ($id != NULL){
             $quote->id = $id;   
             $quote->read_single();
@@ -56,16 +57,15 @@ if ($request_method=="GET"){
             // Get data from result
             if ($num > 0){
                 $quote_arr = array();
-                $quote_arr['data']=array();
                 while( $row = $result->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     $quote_item = array(
                         'id'=> $id,'quote'=> $quote,
                         'author'=> $author,'category'=> $category
                         );
-                    array_push($quote_arr['data'], $quote_item); 
+                    array_push($quote_arr, $quote_item); 
                     }  // end while
-                    echo json_encode($quote_arr);
+                 echo json_encode($quote_arr);
                 } else {
                     echo json_encode(array('message'=> ' No Quotas Found'));		
                 }  // eNd if else
@@ -85,14 +85,13 @@ if ($request_method=="GET"){
                     // Get data from result
                     if ($num > 0){
                         $quote_arr = array();
-                        $quote_arr['data']=array();
                         while( $row = $result->fetch(PDO::FETCH_ASSOC)){
                             extract($row);
                             $quote_item = array(
                                 'id'=> $id,'quote'=> $quote,
                                 'author'=> $author,'category'=> $category
                                 );
-                            array_push($quote_arr['data'], $quote_item); 
+                            array_push($quote_arr, $quote_item); 
                             } // end while
                             echo json_encode($quote_arr);
                         } else {
@@ -101,16 +100,14 @@ if ($request_method=="GET"){
                 } else {
                 echo json_encode( array('message' => 'categoryId Not Found'));
             }
-                        
-                    
-        } else {    // end if category_id else 
+        // Else if an ID was not provided, return all quotes            
+        } else {   
             $result = $quote->read();
             $num = $result->rowCount();
         
             // Get data from result
             if ($num > 0){
                 $quote_arr = array();
-                $quote_arr['data']=array();
                 while( $row = $result->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     $quote_item = array(
@@ -118,7 +115,7 @@ if ($request_method=="GET"){
                         'author'=> $author,'category'=> $category
                         );
                     // Push to "data"	
-                    array_push($quote_arr['data'], $quote_item); 
+                    array_push($quote_arr, $quote_item); 
                     }
                     // convert the PHP arry to JSON
                     echo json_encode($quote_arr);

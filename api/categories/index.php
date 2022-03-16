@@ -50,14 +50,13 @@ if ($request_method=="GET"){
             // Get data from result
             if ($num > 0){
                 $cat_arr = array();
-                $cat_arr['data']=array();
                 while( $row = $result->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     $cat_item = array(
                         'id'=> $id,'category'=> $category . $test
                         );
                     // Push to "data"	
-                    array_push($cat_arr['data'], $cat_item); 
+                    array_push($cat_arr, $cat_item); 
                     }
                     // convert the PHP arry to JSON
                     echo json_encode($cat_arr);

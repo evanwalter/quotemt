@@ -75,7 +75,7 @@ if($request_method=="POST"){
     //Create Category
     $newid = $author->create();
     if($newid != "-1"){
-            echo json_encode( array('message' => 'Author has been created', 'id' => $newid));
+            echo json_encode( array('message' => 'Author has been created','author' => $author->author, 'id' => $newid));
         } else {
             echo json_encode( array('message' => 'Unable to create Author'));
         }

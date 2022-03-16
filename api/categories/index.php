@@ -83,7 +83,7 @@ if($request_method=="POST"){
     $newid=$category->create();
     
     if($newid != "-1"){
-            echo json_encode( array('message' => 'Category created','id' => $newid));
+            echo json_encode( array('message' => 'Category created','category' => $category->category,  'id' => $newid));
         } else {
             echo json_encode( array('message' => 'Category Not created'));
         }

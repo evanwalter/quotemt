@@ -176,27 +176,44 @@ if($request_method=="POST"){
     $quote->category_id = isset($data->categoryId) ? $data->categoryId : NULL;
 
     if (isset($data->quote)===false){
-        echo json_encode( array('message' => 'A quote was not provided') );
+        echo json_encode( array('message' => 'Missing Required Parameter1s') );
         return false;
     }    
     if (isset($data->authorId)===false){
-        echo json_encode( array('message' => 'An authorId was not provided') );
+        echo json_encode( array('message' => 'Missing Required Parame2ters') );
         return false;
     }
     if (isset($data->categoryId)===false){
-        echo json_encode( array('message' => 'An categoryId was not provided') );
+        echo json_encode( array('message' => 'Missing Required Param3eters') );
         return false;
     }
 
-    //Create Quote
-    $newid=$quote->create();
-    
-    if($newid != "-1"){
-            echo json_encode( array('message' => 'Quote has been created','id' => $newid));
-        } else {
-            echo json_encode( array('message' => 'Quote has NOT created'));
-        }
+    $author = new Author($db);
+    $author->id = $quote->author_id;
+    $isvalid = $validator->isValid($author);
+    if($isvalid){
+        $category = new Category($db);
+        $category->id = $quote->category_id;
+        $isvalid = $validator->isValid($category);
     }
+
+    if ($isvalid){
+        //Create Quote
+        $newid=$quote->create();
+        
+        if($newid != "-1"){
+                echo json_encode( array('quote' => $quote->quote,
+                                    'author' => $author->id,
+                                    'category' => $category->id,
+                                    'id' => $newid));
+            } else {
+                echo json_encode( array('message' => 'Unable to create the new Quote'));
+            }
+        } else {
+            echo json_encode( array('message' => 'Missing Required Parameters') );
+        }
+ 
+    }  // END POST
 
 if($request_method=="PUT"){
     header('Access-Control-Allow-Origin: *');

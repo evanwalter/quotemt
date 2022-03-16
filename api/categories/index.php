@@ -30,7 +30,7 @@ if ($request_method=="GET"){
             $category->read_single();
 
             if ($category->id === "-1"){
-                echo json_encode( array("message" => "categoryId Not found"));
+                echo json_encode( array("message" => "categoryId Not Found"));
             } else {
                 //Create array
                 $category_arr = array(

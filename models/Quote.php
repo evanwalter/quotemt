@@ -56,21 +56,18 @@ class Quote {
 	}
 
 	// Getting all the quotas of a given author
-	public function read_by_author(){
-		$query = 'SELECT    q.id,q.quote,a.author,c.category
-				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
-                            INNER JOIN categories c	ON q.categoryId=c.id 
-				  WHERE q.authorId=:author_id
-				  ORDER BY RAND() LIMIT 1;';
-		
-		// Prepare statement
-		$stmt = $this->conn->prepare($query);
-
-		$stmt->bindParam(':author_id', $this->author_id);
-
-		// Execute query
-		$stmt->execute();
-		return $stmt;
+	public function read_by_author(){	
+			$query = 'SELECT    q.id,q.quote,a.author,c.category
+			FROM quotes q INNER JOIN authors a on q.authorId=a.id
+					  INNER JOIN categories c	ON q.categoryId=c.id 
+			WHERE q.authorId=:author_id;';
+			//ORDER BY RAND() LIMIT 1;';
+			// Prepare statement
+			$stmt = $this->conn->prepare($query);
+			$stmt->bindParam(':author_id', $this->author_id);
+			// Execute query
+			$stmt->execute();
+			return $stmt;
 	}
 
 	// Get all quotes within a given category
@@ -78,18 +75,32 @@ class Quote {
 		$query = 'SELECT    q.id,q.quote,a.author,c.category
 				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
                             INNER JOIN categories c	ON q.categoryId=c.id 
-				  WHERE q.authorId=:category_id
+				  WHERE q.categoryId=:category_id
 				  ORDER BY q.id;';
-		
 		// Prepare statement
 		$stmt = $this->conn->prepare($query);
-
 		$stmt->bindParam(':category_id', $this->category_id);
-
 		// Execute query
 		$stmt->execute();
 		return $stmt;
 	}
+
+	// Getting all the quotas of a given author
+	public function read_by_author_category(){	
+		$query = 'SELECT    q.id,q.quote,a.author,c.category
+		FROM quotes q INNER JOIN authors a on q.authorId=a.id
+				  INNER JOIN categories c	ON q.categoryId=c.id 
+		WHERE q.authorId=:author_id and q.categoryId=:category_id';
+		//ORDER BY RAND() LIMIT 1;';
+		// Prepare statement
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindParam(':author_id', $this->author_id);
+		$stmt->bindParam(':category_id', $this->category_id);
+		// Execute query
+		$stmt->execute();
+		return $stmt;
+	}
+
 
 	// Create a new Quote
 	public function create() {

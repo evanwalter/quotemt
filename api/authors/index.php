@@ -9,6 +9,12 @@ include_once '../../config/Database.php';
 include_once '../../models/Author.php';
 include_once '../../models/Validate.php';
 
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
+
+
 // Instantiate Db and connect
 $database = new Database();
 $db = $database->connect();
@@ -64,11 +70,6 @@ if ($request_method=="GET"){
     }  // End If GET Method
 
 if($request_method=="POST"){
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: POST');
-    header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
-
     // Get raw posted data   - decodes FROM JSON format
     $data = json_decode(file_get_contents("php://input"));
 

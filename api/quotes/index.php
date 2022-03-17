@@ -237,7 +237,10 @@ if($request_method=="PUT"){
 
     //Update
     if($quote->update()){
-            echo json_encode( array('message' => 'Quote updated'));
+                    echo json_encode( array('quote' => $quote->quote,
+                    'authorId' => $quote->author_id,
+                    'categoryId' => $quote->category_id,
+                    'id' => $quote->id));
         } else {
             echo json_encode( array('message' => 'Quote has Not updated'));
         }

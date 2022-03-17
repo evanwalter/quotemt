@@ -254,12 +254,18 @@ if($request_method=="DELETE"){
         // Set ID to delete
         $quote->id = $data->id;
 
-        //Create post
-        if($quote->delete()){
+        $isvalid = $validator->isValid($quote);
+
+        if ($isvalid){
+            if($quote->delete()){
                 echo json_encode( array('id' => $quote->id));
             } else {
                 echo json_encode( array('id' => $quote->id, 'message' => 'No Quotes Found'));
             }
+        } else {
+            echo json_encode( array( 'message' => 'No Quotes Found'));
+        }
+
         }
     }
    

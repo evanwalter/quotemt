@@ -259,13 +259,18 @@ if($request_method=="PUT"){
         return false;
     }
 
-    if($quote->update()){
-                    echo json_encode( array('quote' => $quote->quote,
-                    'authorId' => $quote->author_id,
-                    'categoryId' => $quote->category_id,
-                    'id' => $quote->id));
-        } else {
-            echo json_encode( array('message' => 'Quote has Not updated'));
+    if ($isvalid){
+            if($quote->update()){
+                        echo json_encode( array('quote' => $quote->quote,
+                        'authorId' => $quote->author_id,
+                        'categoryId' => $quote->category_id,
+                        'id' => $quote->id));
+            } else {
+                echo json_encode( array('message' => 'Quote has Not updated'));
+            }
+            } else {
+                echo json_encode( array('message' => 'categoryId Not Found') );
+                return false;
         }
     }
 

@@ -5,6 +5,7 @@ $request_method = $_SERVER["REQUEST_METHOD"];
 $id = isset($_GET['id']) ? $_GET['id'] : NULL;
 $author_id = isset($_GET['authorId']) ? $_GET['authorId'] : NULL;
 $category_id = isset($_GET['categoryId']) ? $_GET['categoryId'] : NULL;
+$random = isset($_GET['random']) ? $_GET['random'] : "false";
 
 include_once '../../config/Database.php';
 include_once '../../models/Quote.php';

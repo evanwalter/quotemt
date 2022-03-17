@@ -3,6 +3,7 @@
 
 $request_method = $_SERVER["REQUEST_METHOD"];
 $id = isset($_GET['id']) ? $_GET['id'] : NULL;
+$random = isset($_GET['random']) ? $_GET['random'] : "false";
 
 include_once '../../config/Database.php';
 include_once '../../models/Author.php';
@@ -37,6 +38,7 @@ if ($request_method=="GET"){
                 print_r(json_encode($author_arr));        
             }
         } else {
+            $author->random = $random;
             $result = $author->read();
             $num = $result->rowCount();
         
@@ -69,6 +71,11 @@ if($request_method=="POST"){
 
     // Get raw posted data   - decodes FROM JSON format
     $data = json_decode(file_get_contents("php://input"));
+
+    if (isset($data->author)===false){
+        echo json_encode( array('message' => 'Missing Required Parameters') );
+        return false;
+    } 
 
     $author->author = $data->author;
 

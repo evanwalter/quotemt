@@ -3,6 +3,7 @@
 
 $request_method = $_SERVER["REQUEST_METHOD"];
 $id = isset($_GET['id']) ? $_GET['id'] : NULL;
+$random = isset($_GET['random']) ? $_GET['random'] : "false";
 
 include_once '../../config/Database.php';
 include_once '../../models/Category.php';
@@ -42,8 +43,7 @@ if ($request_method=="GET"){
                 print_r(json_encode($category_arr));        
             }
         } else {
-            $test = getenv("JAWSDB_URL", false);
-
+            $category->random = $random;
             $result = $category->read();
             $num = $result->rowCount();
         
@@ -53,7 +53,7 @@ if ($request_method=="GET"){
                 while( $row = $result->fetch(PDO::FETCH_ASSOC)){
                     extract($row);
                     $cat_item = array(
-                        'id'=> $id,'category'=> $category . $test
+                        'id'=> $id,'category'=> $category
                         );
                     // Push to "data"	
                     array_push($cat_arr, $cat_item); 
@@ -76,6 +76,11 @@ if($request_method=="POST"){
 
     // Get raw posted data   - decodes FROM JSON format
     $data = json_decode(file_get_contents("php://input"));
+
+    if (isset($data->category)===false){
+        echo json_encode( array('message' => 'Missing Required Parameters') );
+        return false;
+    }     
 
     $category->category = $data->category;
 

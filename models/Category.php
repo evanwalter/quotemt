@@ -10,15 +10,20 @@ class Category {
     public $category;
 
 	public function __construct($db){
-		$this->conn = $db;	
+		$this->conn = $db;
+		$this->random = "false";
 	}
 
 	public function read(){
 
 		$query = 'SELECT id,category
-				  FROM categories  
-				  ORDER BY id;';
-		
+				  FROM categories';
+
+		if ($this->random=="true"){
+			$query = $query . " ORDER BY rand() LIMIT 0,1";
+		} else {
+			$query = $query . " ORDER BY id";
+		}
 		// Prepare statement
 		$stmt = $this->conn->prepare($query);
 		// Execute query

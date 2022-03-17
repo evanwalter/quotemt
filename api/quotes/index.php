@@ -181,15 +181,15 @@ if($request_method=="POST"){
     $quote->category_id = isset($data->categoryId) ? $data->categoryId : NULL;
 
     if (isset($data->quote)===false){
-        echo json_encode( array('message' => 'Missing Required Parameter1s') );
+        echo json_encode( array('message' => 'Missing Required Parameters') );
         return false;
     }    
     if (isset($data->authorId)===false){
-        echo json_encode( array('message' => 'Missing Required Parame2ters') );
+        echo json_encode( array('message' => 'Missing Required Parameters') );
         return false;
     }
     if (isset($data->categoryId)===false){
-        echo json_encode( array('message' => 'Missing Required Param3eters') );
+        echo json_encode( array('message' => 'Missing Required Parameters') );
         return false;
     }
 
@@ -200,6 +200,8 @@ if($request_method=="POST"){
         $category = new Category($db);
         $category->id = $quote->category_id;
         $isvalid = $validator->isValid($category);
+    } else {
+        echo json_encode( array('message' => 'authorId Not Found') );
     }
 
     if ($isvalid){
@@ -208,19 +210,22 @@ if($request_method=="POST"){
         
         if($newid != "-1"){
                 echo json_encode( array('quote' => $quote->quote,
-                                    'author' => $author->id,
-                                    'category' => $category->id,
+                                    'authorId' => $author->id,
+                                    'categoryId' => $category->id,
                                     'id' => $newid));
             } else {
                 echo json_encode( array('message' => 'Unable to create the new Quote'));
             }
         } else {
-            echo json_encode( array('message' => 'Missing Required Parameters') );
+            echo json_encode( array('message' => 'categoryId Not Found') );
         }
  
     }  // END POST
 
 if($request_method=="PUT"){
+    header('Access-Control-Allow-Methods: POST');
+    header('Access-Control-Allow-Methods: PUT');
+    header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
   
     $data = json_decode(file_get_contents("php://input"));
 

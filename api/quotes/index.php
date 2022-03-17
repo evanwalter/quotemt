@@ -221,11 +221,7 @@ if($request_method=="POST"){
     }  // END POST
 
 if($request_method=="PUT"){
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: PUT');
-    header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type,Access-Control-Allow-Methods,Authorization, X-Requested-With');
-
+  
     $data = json_decode(file_get_contents("php://input"));
 
     // Set ID to update
@@ -262,7 +258,7 @@ if($request_method=="DELETE"){
         if($quote->delete()){
                 echo json_encode( array('id' => $quote->id));
             } else {
-                echo json_encode( array('id' => $quote->id, 'message' => 'Unable to delete quote'));
+                echo json_encode( array('id' => $quote->id, 'message' => 'No Quotes Found'));
             }
         }
     }

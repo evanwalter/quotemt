@@ -247,7 +247,17 @@ if($request_method=="PUT"){
         echo json_encode( array('message' => 'Missing Required Parameters') );
         return false;
     }
-
+    $author = new Author($db);
+    $author->id = $quote->author_id;
+    $isvalid = $validator->isValid($author);
+    if($isvalid){
+        $category = new Category($db);
+        $category->id = $quote->category_id;
+        $isvalid = $validator->isValid($category);
+    } else {
+        echo json_encode( array('message' => 'authorId Not Found') );
+        return false;
+    }
 
     if($quote->update()){
                     echo json_encode( array('quote' => $quote->quote,

@@ -13,6 +13,9 @@ include_once '../../models/Author.php';
 include_once '../../models/Category.php';
 include_once '../../models/Validate.php';
 
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+
 // Instantiate Db and connect
 $database = new Database();
 $db = $database->connect();
@@ -24,8 +27,6 @@ $validator = new Validator();
 
 // If GET call return all rows 
 if ($request_method=="GET"){
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
 
     // If an Id was provided, read single
     if ($id != NULL){
@@ -164,8 +165,6 @@ if ($request_method=="GET"){
 
 
 if($request_method=="POST"){
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
     header('Access-Control-Allow-Methods: POST');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
 

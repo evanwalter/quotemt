@@ -228,7 +228,7 @@ if($request_method=="PUT"){
     header('Content-Type: application/json');
     header('Access-Control-Allow-Methods: PUT');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
-  
+    
     $data = json_decode(file_get_contents("php://input"));
 
     // Set ID to update

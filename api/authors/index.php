@@ -2,6 +2,7 @@
 <?php
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: POST');
 header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
 
 $request_method = $_SERVER["REQUEST_METHOD"];
@@ -23,6 +24,9 @@ $validator = new Validator();
 
 // If GET call return all rows 
 if ($request_method=="GET"){
+    header('Access-Control-Allow-Origin: *');
+    header('Content-Type: application/json');
+
     // Get query result & row count
     if ($id != NULL){
             $author->id = $id;   

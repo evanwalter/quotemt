@@ -1,5 +1,9 @@
 
 <?php
+header('Access-Control-Allow-Origin: *');
+header('Content-Type: application/json');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
 
 $request_method = $_SERVER["REQUEST_METHOD"];
 $id = isset($_GET['id']) ? $_GET['id'] : NULL;
@@ -8,12 +12,6 @@ $random = isset($_GET['random']) ? $_GET['random'] : "false";
 include_once '../../config/Database.php';
 include_once '../../models/Author.php';
 include_once '../../models/Validate.php';
-
-header('Access-Control-Allow-Origin: *');
-header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: POST');
-header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
-
 
 // Instantiate Db and connect
 $database = new Database();
@@ -26,8 +24,6 @@ $validator = new Validator();
 
 // If GET call return all rows 
 if ($request_method=="GET"){
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
     // Get query result & row count
     if ($id != NULL){
             $author->id = $id;   
@@ -90,11 +86,6 @@ if($request_method=="POST"){
     }
 
 if($request_method=="PUT"){
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: PUT');
-    header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type,Access-Control-Allow-Methods,Authorization, X-Requested-With');
-
     $data = json_decode(file_get_contents("php://input"));
 
     // Set ID to update
@@ -106,7 +97,7 @@ if($request_method=="PUT"){
             //Update
             $author->author = $data->author;            
             if($author->update()){
-                echo json_encode( array('message' => 'Author updated'));
+                echo json_encode( array('id' => $author->id, 'author': $author->author));
             } else {
                 echo json_encode( array('message' => 'Author not updated'));
             }
@@ -116,11 +107,6 @@ if($request_method=="PUT"){
     }
 
 if($request_method=="DELETE"){
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: DELETE');
-    header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type,Access-Control-Allow-Methods,Authorization,X-Requested-With');
-    
     // Get raw posted data   - decodes FROM JSON format
     $data = json_decode(file_get_contents("php://input"));
 

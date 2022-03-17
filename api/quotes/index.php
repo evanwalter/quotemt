@@ -247,6 +247,13 @@ if($request_method=="PUT"){
         echo json_encode( array('message' => 'Missing Required Parameters') );
         return false;
     }
+
+    $isvalid = $validator->isValid($quote);
+    if !($isvalid){
+        echo json_encode( array('message' => 'No Quotes Found') );
+        return false;
+    }
+
     $author = new Author($db);
     $author->id = $quote->author_id;
     $isvalid = $validator->isValid($author);

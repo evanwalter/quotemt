@@ -232,10 +232,23 @@ if($request_method=="PUT"){
     // Set ID to update
     $quote->id = $data->id;
     $quote->quote = $data->quote;
-    $quote->author_id = isset($_POST['authorId']) ? $data->authorId : NULL;
-    $quote->category_id = isset($_POST['categoryId']) ? $data->categoryId : NULL;
+    $quote->author_id = isset($data->authorId) ? $data->authorId : NULL;
+    $quote->category_id = isset($data->categoryId) ? $data->categoryId : NULL;
 
-    //Update
+    if (isset($data->quote)===false){
+        echo json_encode( array('message' => 'Missing Required Parameters') );
+        return false;
+    }    
+    if (isset($data->authorId)===false){
+        echo json_encode( array('message' => 'Missing Required Parameters') );
+        return false;
+    }
+    if (isset($data->categoryId)===false){
+        echo json_encode( array('message' => 'Missing Required Parameters') );
+        return false;
+    }
+
+
     if($quote->update()){
                     echo json_encode( array('quote' => $quote->quote,
                     'authorId' => $quote->author_id,

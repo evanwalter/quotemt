@@ -108,12 +108,12 @@ if($request_method=="PUT"){
             //Update
             $category->category = $data->category;
             if($category->update()){
-                echo json_encode( array('message' => 'Category updated'));
+                echo json_encode( array('id' => $category->id,'category' => $category->category));
             } else {
                 echo json_encode( array('message' => 'Category Not updated'));
             }
         } else {
-            echo json_encode( array('message' => 'CategoryId not found'));
+            echo json_encode( array('message' => 'Missing Required Parameters'));
         }
 
     }

@@ -165,9 +165,7 @@ if ($request_method=="GET"){
                 }
         } 
     }  // End If GET Method
-
-
-if($request_method=="POST"){
+else if($request_method=="POST"){
     header('Access-Control-Allow-Methods: POST');
     header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
 
@@ -221,7 +219,7 @@ if($request_method=="POST"){
  
     }  // END POST
 
-if($request_method=="PUT"){
+else if($request_method=="PUT"){
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
     header('Access-Control-Allow-Methods: PUT');
@@ -281,7 +279,7 @@ if($request_method=="PUT"){
         }
     }
 
-if($request_method=="DELETE"){
+else if($request_method=="DELETE"){
     header('Access-Control-Allow-Origin: *');
     header('Content-Type: application/json');
     header('Access-Control-Allow-Methods: DELETE');

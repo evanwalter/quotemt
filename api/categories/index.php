@@ -100,6 +100,11 @@ if($request_method=="PUT"){
   
     $data = json_decode(file_get_contents("php://input"));
 
+    if ( (isset($data->id)===false) || (isset($data->category)===false) ) {
+        echo json_encode( array('message' => 'Missing Required Parameters') );
+        return false;
+    }
+
     // Set ID to update
     $category->id = $data->id;
 

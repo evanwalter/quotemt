@@ -143,8 +143,7 @@ class Quote {
 
 		// Prepare statement
 		$stmt = $this->conn->prepare($query);
-		printf("teaet" . $this->category_id);
- 
+		
 		// Clean data
 		$this->id = htmlspecialchars(strip_tags($this->id));
 		$this->quote = htmlspecialchars(strip_tags($this->quote));

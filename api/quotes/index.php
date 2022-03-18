@@ -249,7 +249,7 @@ if($request_method=="PUT"){
     }
 
     $isvalid = $validator->isValid($quote);
-    if !($isvalid){
+    if (!$isvalid){
         echo json_encode( array('message' => 'No Quotes Found') );
         return false;
     }

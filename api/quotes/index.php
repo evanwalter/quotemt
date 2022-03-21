@@ -1,12 +1,17 @@
 
 <?php
+#header('Access-Control-Allow-Origin: *');
+#header('Content-Type: application/json');
+#header('Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE');
+#header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE');
-header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
-
-
 $request_method = $_SERVER["REQUEST_METHOD"];
+if ($request_method === 'OPTIONS') {
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
+}
+
 $id = isset($_GET['id']) ? $_GET['id'] : NULL;
 $author_id = isset($_GET['authorId']) ? $_GET['authorId'] : NULL;
 $category_id = isset($_GET['categoryId']) ? $_GET['categoryId'] : NULL;
@@ -170,8 +175,8 @@ if ($request_method=="GET"){
         } 
     }  // End If GET Method
 else if($request_method=="POST"){
-    header('Access-Control-Allow-Methods: POST');
-    header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
+    #header('Access-Control-Allow-Methods: POST');
+    #header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
 
     // Get raw posted data   - decodes FROM JSON format
     $data = json_decode(file_get_contents("php://input"));
@@ -224,10 +229,10 @@ else if($request_method=="POST"){
     }  // END POST
 
 else if($request_method=="PUT"){
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: PUT');
-    header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
+    #header('Access-Control-Allow-Origin: *');
+    #header('Content-Type: application/json');
+    #header('Access-Control-Allow-Methods: PUT');
+    #header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
     
     $data = json_decode(file_get_contents("php://input"));
 
@@ -284,10 +289,10 @@ else if($request_method=="PUT"){
     }
 
 else if($request_method=="DELETE"){
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
-    header('Access-Control-Allow-Methods: DELETE');
-    header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type,Access-Control-Allow-Methods,Authorization,X-Requested-With');
+    #header('Access-Control-Allow-Origin: *');
+    #header('Content-Type: application/json');
+    #header('Access-Control-Allow-Methods: DELETE');
+    #header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type,Access-Control-Allow-Methods,Authorization,X-Requested-With');
     
     // Get raw posted data   - decodes FROM JSON format
     $data = json_decode(file_get_contents("php://input"));

@@ -55,7 +55,8 @@ if ($request_method=="GET"){
         $isvalid = $validator->isValid($author);
     
         if($isvalid){
-            $quote->author_id = $author_id;   
+            $quote->author_id = $author_id;
+            $quote->random = $random;   
             $result = $quote->read_by_author();
             $num = $result->rowCount();
         
@@ -83,7 +84,8 @@ if ($request_method=="GET"){
                 $isvalid = $validator->isValid($category);
 
                 if($isvalid){
-                    $quote->category_id = $category_id;   
+                    $quote->category_id = $category_id;  
+                    $quote->random = $random;    
                     $result = $quote->read_by_category();
                     $num = $result->rowCount();
                 
@@ -119,6 +121,7 @@ if ($request_method=="GET"){
         if($isvalid){
             $quote->author_id = $author_id;
             $quote->category_id = $category_id;
+            $quote->random = $random;   
             $result = $quote->read_by_author_category();
             $num = $result->rowCount();
             // Get data from result
@@ -141,6 +144,7 @@ if ($request_method=="GET"){
         }        
     // Else if an ID was not provided, return all quotes            
     } else {   
+            $quote->random = $random;
             $result = $quote->read();
             $num = $result->rowCount();
         

@@ -13,14 +13,20 @@ class Quote {
 
 	public function __construct($db){
 		$this->conn = $db;	
+		$this->random = "false";
 	}
 
+	// GETS all the Quotes
 	public function read(){
-		$query = 'SELECT    q.id,q.quote,a.author,c.category
+		$query = 'SELECT    q.id,q.quote,a.author,c.category 
 				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
-                            INNER JOIN categories c	ON q.categoryId=c.id 
-				  ORDER BY q.id;';
-		
+                            INNER JOIN categories c	ON q.categoryId=c.id ';
+		if ($this->random=="true"){
+			$query = $query . " ORDER BY rand() LIMIT 0,1";
+		} else {
+			$query = $query . " ORDER BY q.id";
+		}
+
 		// Prepare statement
 		$stmt = $this->conn->prepare($query);
 		// Execute query
@@ -60,8 +66,13 @@ class Quote {
 			$query = 'SELECT    q.id,q.quote,a.author,c.category
 			FROM quotes q INNER JOIN authors a on q.authorId=a.id
 					  INNER JOIN categories c	ON q.categoryId=c.id 
-			WHERE q.authorId=:author_id;';
-			//ORDER BY RAND() LIMIT 1;';
+			WHERE q.authorId=:author_id ';
+		if ($this->random=="true"){
+			$query = $query . " ORDER BY rand() LIMIT 0,1";
+		} else {
+			$query = $query . " ORDER BY q.id";
+		}
+
 			// Prepare statement
 			$stmt = $this->conn->prepare($query);
 			$stmt->bindParam(':author_id', $this->author_id);
@@ -75,8 +86,13 @@ class Quote {
 		$query = 'SELECT    q.id,q.quote,a.author,c.category
 				  FROM quotes q INNER JOIN authors a on q.authorId=a.id
                             INNER JOIN categories c	ON q.categoryId=c.id 
-				  WHERE q.categoryId=:category_id
-				  ORDER BY q.id;';
+				  WHERE q.categoryId=:category_id ';
+		if ($this->random=="true"){
+			$query = $query . " ORDER BY rand() LIMIT 0,1";
+		} else {
+			$query = $query . " ORDER BY q.id";
+		}
+
 		// Prepare statement
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(':category_id', $this->category_id);
@@ -86,12 +102,17 @@ class Quote {
 	}
 
 	// Getting all the quotas of a given author
+	// within a given category
 	public function read_by_author_category(){	
 		$query = 'SELECT    q.id,q.quote,a.author,c.category
 		FROM quotes q INNER JOIN authors a on q.authorId=a.id
 				  INNER JOIN categories c	ON q.categoryId=c.id 
-		WHERE q.authorId=:author_id and q.categoryId=:category_id';
-		//ORDER BY RAND() LIMIT 1;';
+		WHERE q.authorId=:author_id and q.categoryId=:category_id ';
+		if ($this->random=="true"){
+			$query = $query . " ORDER BY rand() LIMIT 0,1";
+		} else {
+			$query = $query . " ORDER BY q.id";
+		}
 		// Prepare statement
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindParam(':author_id', $this->author_id);

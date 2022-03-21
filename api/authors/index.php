@@ -1,11 +1,18 @@
 
 <?php
+#header('Access-Control-Allow-Origin: *');
+#header('Content-Type: application/json');
+#header('Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE');
+#header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
+
 header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
-header('Access-Control-Allow-Methods: OPTIONS,GET,POST,PUT,DELETE');
-header('Access-Control-Allow-Headers: Access-Control-Allow-Origin,Content-Type, Access-Control-Allow-Methods,Authorization, X-Requested-With');
-
 $request_method = $_SERVER["REQUEST_METHOD"];
+if ($request_method === 'OPTIONS') {
+    header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+    header('Access-Control-Allow-Headers: Origin, Accept, Content-Type, X-Requested-With');
+}
+
 $id = isset($_GET['id']) ? $_GET['id'] : NULL;
 $random = isset($_GET['random']) ? $_GET['random'] : "false";
 
@@ -24,8 +31,8 @@ $validator = new Validator();
 
 // If GET call return all rows 
 if ($request_method=="GET"){
-    header('Access-Control-Allow-Origin: *');
-    header('Content-Type: application/json');
+    #header('Access-Control-Allow-Origin: *');
+    #header('Content-Type: application/json');
 
     // Get query result & row count
     if ($id != NULL){
@@ -69,7 +76,7 @@ if ($request_method=="GET"){
     }  // End If GET Method
 
 if($request_method=="POST"){
-    header('Access-Control-Allow-Methods: POST');
+    #header('Access-Control-Allow-Methods: POST');
     // Get raw posted data   - decodes FROM JSON format
     $data = json_decode(file_get_contents("php://input"));
 
@@ -90,7 +97,7 @@ if($request_method=="POST"){
     }
 
 if($request_method=="PUT"){
-    header('Access-Control-Allow-Methods: PUT');
+    #header('Access-Control-Allow-Methods: PUT');
     $data = json_decode(file_get_contents("php://input"));
 
     if ( (isset($data->id)===false) || (isset($data->author)===false) ) {

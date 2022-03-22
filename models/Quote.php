@@ -10,10 +10,12 @@ class Quote {
 	public $category_id;
 	public $author_id;
     public $quote;
+	public $message;
 
 	public function __construct($db){
 		$this->conn = $db;	
 		$this->random = "false";
+		$this->message = "";
 	}
 
 	// GETS all the Quotes

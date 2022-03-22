@@ -138,7 +138,7 @@ if($request_method=="DELETE"){
         if($author->delete()){
                 echo json_encode( array('id' => $author->id));
             } else {
-                echo json_encode( array('id' => $author->id, 'message' => 'authorId Not Found'));
+                echo json_encode( array('id' => $author->id, 'message' => $author->message));
             }
         }
     }

@@ -8,10 +8,12 @@ class Author {
 	// Post Properties
 	public $id;
     public $author;
+	public $message;
 
 	public function __construct($db){
 		$this->conn = $db;	
 		$this->random = "false";
+		$this->message = "";
 	}
 
 	public function read(){
@@ -118,16 +120,15 @@ class Author {
 		// Bind the data
 		$stmt->bindParam(':id', $this->id);
 
-		//Execute query
-		if ($stmt->execute()){
+		try { 
+			$stmt->execute();
 			return true;
+		} catch(Exception $e){
+			$this->message=$e->getMessage();
+			return false;
 		}
-
-		// Print error if something goes wrong
-		printf("Error: %s.\n", $stmt->error);
-
+		
 		return false;
-
 	}
 
 }

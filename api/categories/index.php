@@ -146,7 +146,7 @@ if($request_method=="DELETE"){
         if($category->delete()){
                 echo json_encode( array('id' => $category->id));
             } else {
-                echo json_encode( array('id' => $category->id, 'message' => 'Unable to delete category'));
+                echo json_encode( array('id' => $category->id, 'message' => $category->message));
             }
         }
     }
